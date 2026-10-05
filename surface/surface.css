@@ -1,0 +1,8 @@
+/* Tell Tailwind where classes live outside src/. */
+@source "../prototypes";
+@source "../chromes";
+@source "../surface";
+
+body {
+  overflow-x: hidden;
+}

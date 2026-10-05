@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      { "command": "node scripts/hooks/design-check.mjs cursor edit" }
+    ],
+    "stop": [
+      { "command": "node scripts/hooks/design-check.mjs cursor stop" }
+    ]
+  }
+}

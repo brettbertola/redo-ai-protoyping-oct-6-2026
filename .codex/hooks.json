@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "apply_patch|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/hooks/design-check.mjs codex edit",
+            "statusMessage": "Surface: design rules",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/hooks/design-check.mjs codex stop",
+            "statusMessage": "Surface: design rules",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
