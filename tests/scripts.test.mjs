@@ -794,33 +794,37 @@ test("N3 N4 N5: a user test runs in a browser, counts patience and writes a repo
       "N3: there is only one user test at a time"
     )
 
-    const why = "I see this control and I think it is the next step to pay."
-    assert.equal(surface("test", "click", pay.ref).ok, false, "N4: needs --why")
-    assert.equal(surface("test", "click", "e99", "--why", why).ok, false)
+    const says = "I want to pay. This button says Pay, so I press it."
+    assert.equal(
+      surface("test", "click", pay.ref).ok,
+      false,
+      "N4: needs --says"
+    )
+    assert.equal(surface("test", "click", "e99", "--says", says).ok, false)
     assert.equal(surface("test", "scroll", "down").patience.remaining, 4)
     const typed = surface(
       "test",
       "type",
       email.ref,
       "a@example.com",
-      "--why",
-      why
+      "--says",
+      says
     )
     assert.equal(typed.patience.remaining, 3, "N4: a text entry costs 1")
     assert.equal(
       typed.controls.find((control) => control.name === "Email").value,
       "a@example.com"
     )
-    const paid = surface("test", "click", pay.ref, "--why", why)
+    const paid = surface("test", "click", pay.ref, "--says", says)
     assert.equal(
       paid.page,
       "/examples/mobile-checkout/confirmation?button=inline"
     )
-    assert.match(paid.text, /Order placed/)
-    surface("test", "back", "--why", why)
-    const last = surface("test", "key", "Tab", "--why", why)
+    assert.match(paid.text, /Payment received/)
+    surface("test", "back", "--says", says)
+    const last = surface("test", "key", "Tab", "--says", says)
     assert.equal(last.patience.remaining, 0)
-    const refused = surface("test", "key", "Tab", "--why", why)
+    const refused = surface("test", "key", "Tab", "--says", says)
     assert.equal(refused.ok, false, "N4: no action when the patience is 0")
     assert.match(refused.summary, /patience is 0/)
 

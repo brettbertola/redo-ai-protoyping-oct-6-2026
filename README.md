@@ -21,7 +21,7 @@ This procedure takes approximately 10 minutes.
 
 1. Open the [shadcn theme builder](https://ui.shadcn.com/create). Make a theme that looks like your product.
 2. Copy the command that the theme builder gives you.
-3. On this page, click the green **Code** button. Then click **Download ZIP**.
+3. Download Surface: [open-surface ZIP file](https://github.com/de6eling/open-surface/archive/refs/heads/main.zip).
 4. Open the ZIP file. Move the folder to a location that you can find again.
 5. Open the folder in your AI app (**File → Open Folder**).
 6. Type this command in the chat:
@@ -47,38 +47,77 @@ To stop the preview, type `/surface-start stop`. If the preview does not load, t
 
 ## Commands
 
-Type a slash command. Then write what you want in your own words. These are examples. The home page of the preview shows all commands.
+Type a slash command. Then write what you want in your own words. The text after each command is an example. The home page of the preview shows the same commands.
+
+### Surface
+
+| You type | Result |
+|---|---|
+| `/surface-setup` | The assistant installs the necessary items and applies your theme |
+| `/surface-doctor` | The assistant finds and repairs problems with your setup |
+| `/surface-start` | The preview starts and opens in your browser |
+| `/surface-train` always show an empty state for a list | The assistant obeys this rule in all future prototypes |
+| `/surface-ship` | The assistant publishes your prototypes to a link |
+| `/surface-update` | You get the latest version of Surface |
+| `/surface-develop` add a watch size to the devices | The assistant changes how Surface works for all prototypes |
+
+### Prototypes
 
 | You type | Result |
 |---|---|
 | `/prototype-new` a settings page with a profile form | A new prototype shows in the preview |
 | `/prototype-update` settings: put the form in two columns | The assistant changes the prototype |
+| `/prototype-update` show the checkout prototype on a phone | The prototype shows in a phone frame |
+| `/prototype-animate` order: make the scoop fall onto the cone | The prototype gets an animation |
+| `/prototype-delete` the test prototype | The assistant asks for approval, then deletes it |
+
+### Variants
+
+| You type | Result |
+|---|---|
 | `/variant-new` a header with a search bar | You get an alternative that you can select |
 | `/variant-update` make the compact layout the default | A different option shows first |
-| `/variant-delete` the old header option | The assistant deletes the variant |
-| `/prototype-animate` order: make the scoop fall onto the cone | The prototype gets an animation |
 | `/variant-animate` order: compare a drop and a bounce for the scoop | You get animations that you can select and compare |
+| `/variant-delete` the old header option | The assistant asks for approval, then deletes it |
+
+### Chromes
+
+| You type | Result |
+|---|---|
 | `/chrome-new` that looks like our app (add a screenshot) | The navigation of your product shows around your prototypes |
-| `/prototype-update` show the checkout prototype on a phone | The prototype shows in a phone frame |
+| `/chrome-update` put the search field in the header | The assistant changes the chrome |
+| `/chrome-delete` the old admin chrome | The assistant asks for approval, then deletes it |
+
+### User tests
+
+| You type | Result |
+|---|---|
 | `/test-new` the checkout prototype as a shop owner with no time | A simulated user tries the prototype. You get a report with the problems |
 | `/test-persona-new` a careful accountant who reads each label | You get a simulated user for your user tests |
 | `/test-task-new` checkout: pay for the order | You get a goal that a simulated user tries to complete |
-| `/surface-train` always show an empty state for a list | The assistant obeys this rule in all future prototypes |
-| `/prototype-delete` the test prototype | The assistant asks for approval, then deletes it |
-| `/surface-ship` | The assistant publishes your prototypes to a link |
-| `/surface-update` | You get the latest version of Surface |
-| `/surface-doctor` | The assistant finds and repairs problems with your setup |
 
 ## Controls in the preview
+
+These keys work in each prototype:
 
 | Keys | Function |
 |---|---|
 | ⌘K | Find a prototype. Select a chrome. Select a device size. |
 | ⌘⇧K | Select a variant of the current prototype. |
-| ⌘⇧B | See all prototypes. |
-| Right-click | Open the same menu. |
+| ⌘⇧B | See all prototypes in a panel. |
+| Right-click | Open the Surface menu. |
+| ⇧ Right-click | Open the menu of the browser. |
 
-On Windows, use Ctrl as an alternative to ⌘. The address bar always contains a link to the screen that you see.
+These keys work in the command palette (⌘K):
+
+| Keys | Function |
+|---|---|
+| Tab | Go between the prototypes and the variants. |
+| ⌘D | Save the current options as your defaults. |
+| ⌘C | Copy the link to the screen that you see. |
+| Esc | Close the command palette. |
+
+On Windows, use Ctrl as an alternative to ⌘. The address bar always contains a link to the screen that you see. The home page of the preview shows the same keys.
 
 ## Test a prototype with a simulated user
 

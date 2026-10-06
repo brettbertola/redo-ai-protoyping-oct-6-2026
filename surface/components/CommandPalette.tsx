@@ -27,12 +27,7 @@ import {
   useLauncherVisible,
   type StageState,
 } from "../lib/stage-state"
-import {
-  clearLocalDefaults,
-  hasLocalDefaults,
-  setLocalDefault,
-  setLocalDefaults,
-} from "../lib/variant-defaults"
+import { setLocalDefault, setLocalDefaults } from "../lib/variant-defaults"
 import {
   buildVariantSearch,
   currentValueFor,
@@ -173,11 +168,6 @@ export function CommandPalette({
     if (!activePrototype?.props) return {}
     return resolveSchemaDefaults(activePrototype.props)
   }, [activePrototype])
-
-  const pathHasLocalDefaults = useMemo(() => {
-    void localDefaultsVersion
-    return hasLocalDefaults(prototypeKey)
-  }, [prototypeKey, localDefaultsVersion])
 
   const protoFuse = useMemo(
     () =>
@@ -454,13 +444,6 @@ export function CommandPalette({
       }
       if (!(e.metaKey || e.ctrlKey)) return
       const key = e.key.toLowerCase()
-      if (key === "r") {
-        if (!activePrototype?.props) return
-        e.preventDefault()
-        if (e.shiftKey) clearLocalDefaults(prototypeKey)
-        goToVariants({})
-        return
-      }
       if (key === "d") {
         if (!activePrototype?.props || tab !== "variants") return
         e.preventDefault()
@@ -479,15 +462,7 @@ export function CommandPalette({
     }
     window.addEventListener("keydown", handler)
     return () => window.removeEventListener("keydown", handler)
-  }, [
-    open,
-    activePrototype,
-    prototypeKey,
-    goToVariants,
-    tab,
-    saveCurrentAsDefaults,
-    stage,
-  ])
+  }, [open, activePrototype, tab, saveCurrentAsDefaults, stage])
 
   function setAxisAsDefault(row: VariantRow) {
     if (!activePrototype?.props) return
@@ -689,14 +664,6 @@ export function CommandPalette({
                 <span>
                   <kbd>⌘D</kbd> Set as default
                 </span>
-                <span>
-                  <kbd>⌘R</kbd> Reset
-                </span>
-                {pathHasLocalDefaults ? (
-                  <span>
-                    <kbd>⌘⇧R</kbd> Clear my defaults
-                  </span>
-                ) : null}
                 <span>
                   <kbd>⌘C</kbd> Copy link
                 </span>

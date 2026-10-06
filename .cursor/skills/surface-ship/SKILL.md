@@ -41,11 +41,15 @@ The prototypes have a problem that prevents the publish step. Repair each proble
 The work is now safe on GitHub. It is private. This procedure connects Cloudflare. You do it one time only. Give the designer one step at a time. Wait after each step.
 
 1. Sign in at https://dash.cloudflare.com
-2. Open "Workers & Pages". Click "Create". Select the "Pages" tab. Click "Connect to Git".
-3. Select GitHub. Approve the access. Select the repository that `repositoryName` shows.
-4. Set the build command to `npm run build`. Set the build output directory to `dist`. If the page offers a framework preset, select "Vite". Do not change other settings.
-5. Click "Save and Deploy". Wait until it completes. This takes one or two minutes.
-6. Copy the link that Cloudflare shows. It ends with `.pages.dev`. Paste the link here.
+2. In the menu on the left, find the group "Build". Click "Compute". A list opens below it. Click "Workers & Pages".
+3. Click the blue button "Create application". It is at the top right.
+4. In the box "Make something new", click "Continue with GitHub". If GitHub asks for access, approve it.
+5. Select the repository that `repositoryName` shows. Click "Next".
+6. The screen "Set up your application" shows. Do not change the settings. The build command is `npm run build`, and the deploy command is `npx wrangler deploy`. Click the blue button "Deploy".
+7. Wait until it completes. This takes one or two minutes.
+8. Copy the link that Cloudflare shows. It ends with `.workers.dev`. Paste the link here.
+
+Do not tell the designer to click "Continue to Pages", to select a "Pages" tab or to set an output directory. That is the old procedure.
 
 The Cloudflare pages can change. If the designer sees different pages, ask for a screenshot. Then help them to find the equivalent step.
 

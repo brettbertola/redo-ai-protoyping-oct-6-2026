@@ -52,6 +52,7 @@ Note: the tables below are short technical records for contributors. They are no
 | B8 | (new) only the active component variant loads | Network tab shows one `variants/{axis}/*` chunk for the active value only | ✅ |
 | B9 | Unknown URL shows not-found page with a way home | Visit `/nope/nope` | ✅ |
 | B10 | Home page lists what you can ask for | Skill list on the home page matches the skills folder exactly | ✅ Enforced by `check` |
+| B11 **auto** | (new) Home page lists the keyboard shortcuts | The home page shows the shortcuts of the preview and of the command palette, the same as the README | ✅ |
 
 ### C. Variants
 
@@ -76,7 +77,7 @@ Note: the tables below are short technical records for contributors. They are no
 | D3 | First result is always highlighted and scrolled into view when query, tab or open state changes | 🟡 |
 | D4 **auto** | Variants tab: one group per axis, one row per value, "current" and "default" tags, "Set default" on non-default rows | ✅ |
 | D5 | Variants tab on a prototype with no variants shows the explanatory empty state | 🟡 |
-| D6 | ⌘R resets URL params; ⌘⇧R also clears saved defaults; ⌘D saves current values as defaults | 🟡 |
+| D6 | ~~⌘R resets URL params; ⌘⇧R also clears saved defaults;~~ ⌘D saves current values as defaults | 🟡 Revised: the two reset shortcuts are removed. They took the place of the reload keys of the browser. "Set default" on a row changes a saved default |
 | D7 | Copy-link shortcut copies the URL **without** breaking normal copy of selected text in the input (bug fix) | 🟡 |
 | D8 | Chrome and Device groups list available options with current state; toggling does not close the palette | ✅ |
 | D9 | Home button and "Browse…" button work; Esc closes | 🟡 |
@@ -152,7 +153,7 @@ Note: the tables below are short technical records for contributors. They are no
 | J1 | Fresh Mac with only Cursor: README alone gets to a themed, running preview | ⬜ |
 | J2 | Same on fresh Windows | ⬜ |
 | J3 | Applying a second, different preset re-themes everything, prototypes still compile | ✅ |
-| J4 | First ship: GitHub sign-in in the browser, private repo created, pushed, Cloudflare connected by following the walkthrough, live URL loads | ⬜ `ship` has never been run for real; it creates a GitHub repository |
+| J4 | First ship: GitHub sign-in in the browser, private repo created, pushed, Cloudflare connected by following the walkthrough, live URL loads | 🟡 Done one time by hand with a Cloudflare Worker ("Compute > Workers & Pages > Create application", default settings). The site and a nested path load. Not yet done with the updated walkthrough |
 | J5 | Second ship: one request → new version live; skill reports the URL | ⬜ |
 | J6 | Ship with a broken prototype is stopped locally with an explanation; nothing is pushed | ⬜ |
 | J7 | Deep links and refresh work on the live site (no 404 on nested paths) | ⬜ |
@@ -199,7 +200,7 @@ Note: the tables below are short technical records for contributors. They are no
 | N1 **auto** | `test persona new` names each missing or incorrect trait, refuses a duplicate without `--replace`, and `delete` needs `--yes` | ✅ |
 | N2 **auto** | `test task new` needs a prototype that exists, a page that exists and variants that exist | ✅ |
 | N3 **auto** | `test start` needs the preview, opens the prototype without the Surface controls at the size of its device, and gives a briefing that has no success conditions. There is only one user test at a time | ✅ |
-| N4 **auto** | Each action gives a screenshot and the controls on the screen. A click, a text entry, a key and "back" cost 1 patience and need `--why`. At 0, the script refuses an action | ✅ |
+| N4 **auto** | Each action gives a screenshot and the controls on the screen. A click, a text entry, a key and "back" cost 1 patience and need `--says` (the comment that the user says aloud). At 0, the script refuses an action | ✅ |
 | N5 **auto** | `test finding` refuses an unknown type and a duplicate. `test end` writes the report, gives the success conditions and stops the browser | ✅ |
 | N6 | With no browser for Playwright, `test start` gives the command that installs one. A browser of the computer (Chrome, Edge) is used if it exists | ⬜ |
 | N7 | In Claude Code, Cursor and Codex, the `test-new` skill completes a test. The participant is a subagent where that is possible | ⬜ Not yet tried with a subagent |

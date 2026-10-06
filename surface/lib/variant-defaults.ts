@@ -92,15 +92,3 @@ export function setLocalDefault(
     schemaDefaults
   )
 }
-
-export function clearLocalDefaults(pathname: string) {
-  if (!pathname) return
-  const store = readStore()
-  if (!(pathname in store)) return
-  delete store[pathname]
-  writeStore(store)
-}
-
-export function hasLocalDefaults(pathname: string): boolean {
-  return Object.keys(getLocalDefaults(pathname)).length > 0
-}

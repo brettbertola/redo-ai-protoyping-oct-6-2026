@@ -114,6 +114,7 @@ examples/dashboard
    - There is only one user test at a time.
 6. **Give the task to the participant.** The result contains `briefing`, `screenshot` and `controls`.
    - If you can start a subagent, start one as the participant. Give it the full `briefing`, the path of the `screenshot` and the `controls`. Give it nothing else. Do not give it the success conditions, the files of the prototype or this skill. Tell it to continue until it runs `test end`.
+   - Call the test a role-play of a user in a usability test. Ask the participant for the comments that the user says aloud. Do not ask the participant for its reasoning, its thoughts or its notes. An assistant can refuse such a request.
    - If you cannot start a subagent, you are the participant. Obey the `briefing`. Use only what the screenshots show. Do not use what you know about the files of the prototype.
 7. **The participant does the task.** The participant runs the `test` commands in the `briefing` until it runs `test end`.
    - If the participant stops and did not run `test end`, run `npm run surface -- test status`. If the test is on, tell the participant to continue or to end.
