@@ -53,6 +53,7 @@ Note: the tables below are short technical records for contributors. They are no
 | B9 | Unknown URL shows not-found page with a way home | Visit `/nope/nope` | ✅ |
 | B10 | Home page lists what you can ask for | Skill list on the home page matches the skills folder exactly | ✅ Enforced by `check` |
 | B11 **auto** | (new) Home page lists the keyboard shortcuts | The home page shows the shortcuts of the preview and of the command palette, the same as the README | ✅ |
+| B12 **auto** | (new) Home page shows recent prototypes only | The home page shows a maximum of 3 prototypes that the person opened most recently, newest first. It does not list all prototypes. With no saved visits, it tells the person how to find a prototype | ✅ The maximum of 3 is not in the test: the project has only 2 example prototypes |
 
 ### C. Variants
 
@@ -82,6 +83,7 @@ Note: the tables below are short technical records for contributors. They are no
 | D8 | Chrome and Device groups list available options with current state; toggling does not close the palette | ✅ |
 | D9 | Home button and "Browse…" button work; Esc closes | 🟡 |
 | D10 | Hovering or highlighting a prototype preloads its chunk | 🟡 |
+| D11 **auto** | (new) The Surface group has "Light mode", "Dark mode" and "System mode". The current mode has the "current" tag. The selection applies to the shell and to a device frame, it stays after a reload, and it does not close the palette. System mode follows the computer | ✅ |
 
 ### E. Browse panel
 
@@ -129,7 +131,7 @@ Note: the tables below are short technical records for contributors. They are no
 | H3 | `prototype new` rejects invalid and duplicate names; output compiles; `rename` updates the folder and leaves no stale references; `delete` removes variants too and removes an emptied category | ✅ |
 | H4 | `variant add/rename/delete/set-default` for every axis kind; refuses to delete the last value; deleting the default requires a new default; orphan scan reports leftovers | ✅ |
 | H5 | `chrome new/delete` same guarantees as H3 | ✅ |
-| H6 | `theme apply` extracts the preset from a full command or bare code, rejects anything else, never executes pasted text; afterwards every shadcn component exists | ✅ |
+| H6 | `theme apply` extracts the preset from a full command, from `--preset <code>` alone or from a bare code, with or without quotes, rejects anything else, never executes pasted text; afterwards every shadcn component exists | ✅ |
 | H7 | `check` fails on a type error, on a design-rule violation, and on a build error, each with a readable message | 🟡 Type and design-rule failures verified; build failure not yet |
 | H8 | Every script prints machine-readable JSON and a plain-language summary; no script prompts interactively | ✅ |
 | H9 | All of the above pass on macOS and Windows in CI | ⬜ No CI yet; Windows untested |

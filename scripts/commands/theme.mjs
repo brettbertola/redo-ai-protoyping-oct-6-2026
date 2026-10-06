@@ -36,9 +36,17 @@ function tail(text, lines = 20) {
 }
 
 async function apply(args) {
-  const pasted =
-    args._.slice(1).join(" ") ||
-    (typeof args.preset === "string" ? `--preset ${args.preset}` : "")
+  // A pasted "--preset abc" reaches us as an option, or, when it stays in
+  // quotes, as one option whose name contains the code. Put the text back
+  // together so that each form reads the same.
+  const pasted = [
+    ...args._.slice(1),
+    ...Object.entries(args)
+      .filter(([key]) => key !== "_")
+      .map(([key, value]) =>
+        value === true ? `--${key}` : `--${key} ${value}`
+      ),
+  ].join(" ")
   const preset = extractPreset(pasted)
   if (!preset) {
     stop(

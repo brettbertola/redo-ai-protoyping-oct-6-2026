@@ -9,6 +9,7 @@ import {
 import { useLocation, useNavigate } from "react-router"
 import Fuse from "fuse.js"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
+import { useTheme } from "@/components/theme-provider"
 import surfaceConfig from "../../surface.config"
 import { useBrowseState } from "../lib/browse-state"
 import { DEVICES } from "../lib/devices"
@@ -48,6 +49,7 @@ import {
 } from "./command"
 
 const RECENTS_LIMIT = 8
+const COLOR_MODES = ["light", "dark", "system"] as const
 
 export type PaletteTab = "prototypes" | "variants"
 
@@ -125,6 +127,8 @@ export function CommandPalette({
   const browse = useBrowseState()
   const recents = useRecents()
   const [launcherVisible, setLauncherVisible] = useLauncherVisible()
+  // The theme provider saves the mode, so a device frame follows it too.
+  const { theme: colorMode, setTheme: setColorMode } = useTheme()
   const chromeDefinition = useChromeDefinition(stage.chromeName)
   const { toggles, setToggle } = useChromeToggles(
     stage.chromeName,
@@ -309,6 +313,16 @@ export function CommandPalette({
         })
       }
     }
+    for (const mode of COLOR_MODES) {
+      commands.push({
+        id: `color-mode-${mode}`,
+        group: "Surface",
+        label: `${titleize(mode)} mode`,
+        detail: mode === colorMode ? "current" : "",
+        keywords: `color mode theme appearance light dark system ${mode}`,
+        action: () => setColorMode(mode),
+      })
+    }
     commands.push({
       id: "launcher",
       group: "Surface",
@@ -325,6 +339,8 @@ export function CommandPalette({
     setToggle,
     launcherVisible,
     setLauncherVisible,
+    colorMode,
+    setColorMode,
   ])
 
   const stageFuse = useMemo(

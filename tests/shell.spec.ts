@@ -15,14 +15,34 @@ function frame(page: Page) {
   return page.frameLocator("[data-surface-device] iframe")
 }
 
-test("B1 B2 B9 B11: home lists prototypes; unknown URL shows not-found", async ({
+test("B2 B9 B11 B12: home shows recent prototypes; unknown URL shows not-found", async ({
   page,
 }) => {
+  // B12: the home page does not list all prototypes.
   await page.goto("/")
-  await expect(page.getByRole("link", { name: /Dashboard/ })).toBeVisible()
-  await expect(
-    page.getByRole("link", { name: /Mobile Checkout/ })
-  ).toBeVisible()
+  await expect(page.getByText("You opened no prototypes yet")).toBeVisible()
+  await expect(page.getByRole("link", { name: /Dashboard/ })).toHaveCount(0)
+  // B12: it shows only the prototypes that the person opened, newest first,
+  // and it ignores a saved visit to a prototype that does not exist.
+  await page.goto(DASHBOARD)
+  await expect(page.getByRole("heading", { name: "Projects" })).toBeVisible()
+  await page.evaluate(() => {
+    const key = "surface:recents:v1"
+    const saved = JSON.parse(localStorage.getItem(key) ?? "[]")
+    localStorage.setItem(
+      key,
+      JSON.stringify([
+        { path: "/deleted/one", visitedAt: Date.now() },
+        ...saved,
+      ])
+    )
+  })
+  await page.goto("/")
+  const recent = page
+    .locator("section", { hasText: "Recent prototypes" })
+    .getByRole("link")
+  await expect(recent).toHaveCount(1)
+  await expect(recent).toHaveText(/Dashboard/)
   // B11: the home page shows the skills in groups and the keyboard shortcuts.
   await expect(page.getByText("/surface-develop")).toBeVisible()
   await expect(
@@ -35,7 +55,7 @@ test("B1 B2 B9 B11: home lists prototypes; unknown URL shows not-found", async (
   await expect(page).toHaveURL("/")
 })
 
-test("D1 D2: palette opens, searches, navigates, and remembers recents", async ({
+test("B1 D1 D2: palette opens, searches, navigates, and remembers recents", async ({
   page,
 }) => {
   await page.goto("/")
@@ -173,6 +193,36 @@ test("G4: chrome toggles appear in the palette and persist", async ({
   await page.reload()
   await expect(page.getByRole("heading", { name: "Projects" })).toBeVisible()
   await expect(page.getByText("Acme")).toBeHidden()
+})
+
+test("D11: the palette sets light, dark or system mode, also in a device frame", async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: "light" })
+  await page.goto(CHECKOUT)
+  await expect(frame(page).getByText("Checkout").first()).toBeVisible()
+  const html = page.locator("html")
+  const frameHtml = frame(page).locator("html")
+  await openPalette(page)
+  await page.getByRole("option", { name: "Dark mode" }).click()
+  // The palette stays open and shows the new mode.
+  await expect(page.getByRole("option", { name: "Dark mode" })).toContainText(
+    "current"
+  )
+  await expect(html).toHaveClass(/dark/)
+  await expect(frameHtml).toHaveClass(/dark/)
+  await page.reload()
+  await expect(html).toHaveClass(/dark/)
+  await openPalette(page)
+  await page.getByRole("option", { name: "Light mode" }).click()
+  await expect(html).not.toHaveClass(/dark/)
+  await expect(frameHtml).not.toHaveClass(/dark/)
+  // System mode follows the computer.
+  await page.getByRole("option", { name: "System mode" }).click()
+  await expect(html).not.toHaveClass(/dark/)
+  await page.emulateMedia({ colorScheme: "dark" })
+  await expect(html).toHaveClass(/dark/)
+  await expect(frameHtml).toHaveClass(/dark/)
 })
 
 test("G7 G8 B5: device frame has the exact viewport and follows navigation", async ({

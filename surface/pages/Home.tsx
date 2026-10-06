@@ -1,19 +1,25 @@
 import { useMemo } from "react"
 import { Link } from "react-router"
 import surfaceConfig from "../../surface.config"
+import { useRecents } from "../lib/recents"
 import { preloadPrototype, prototypes } from "../lib/registry"
 import { SHORTCUT_GROUPS, SKILL_GROUPS } from "./requests"
 
+// A project can hold hundreds of prototypes. The palette and the browse panel
+// list them all; the home page shows only the last few that were opened.
+const MAX_RECENTS = 3
+
 export function Home() {
-  const grouped = useMemo(() => {
-    const map = new Map<string, typeof prototypes>()
-    for (const entry of prototypes) {
-      const list = map.get(entry.category) ?? []
-      list.push(entry)
-      map.set(entry.category, list)
-    }
-    return Array.from(map.entries())
-  }, [])
+  const visits = useRecents()
+  // Saved visits can name a prototype that no longer exists.
+  const recents = useMemo(
+    () =>
+      visits
+        .map((visit) => prototypes.find((entry) => entry.path === visit.path))
+        .filter((entry) => entry !== undefined)
+        .slice(0, MAX_RECENTS),
+    [visits]
+  )
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col gap-10 px-6 py-16">
@@ -28,36 +34,34 @@ export function Home() {
       </header>
 
       <section className="flex flex-col gap-4">
-        <h2 className="text-sm font-medium">Prototypes</h2>
-        {grouped.length === 0 ? (
+        <h2 className="text-sm font-medium">Recent prototypes</h2>
+        {prototypes.length === 0 ? (
           <p className="rounded-lg border border-dashed p-6 text-sm text-muted-foreground">
             There are no prototypes. Type /prototype-new in the chat of your AI
             assistant.
           </p>
+        ) : recents.length === 0 ? (
+          <p className="rounded-lg border border-dashed p-6 text-sm text-muted-foreground">
+            You opened no prototypes yet. Press ⌘K to find one, or press ⌘⇧B to
+            see all of them.
+          </p>
         ) : (
-          grouped.map(([category, entries]) => (
-            <div key={category} className="flex flex-col gap-1">
-              <h3 className="text-xs text-muted-foreground">{category}</h3>
-              <ul className="flex flex-col divide-y rounded-lg border">
-                {entries.map((entry) => (
-                  <li key={entry.path}>
-                    <Link
-                      to={entry.path}
-                      onMouseEnter={() => preloadPrototype(entry.path)}
-                      className="flex flex-col gap-0.5 px-4 py-3 transition hover:bg-accent"
-                    >
-                      <span className="text-sm font-medium">{entry.title}</span>
-                      {entry.description ? (
-                        <span className="text-xs text-muted-foreground">
-                          {entry.description}
-                        </span>
-                      ) : null}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
+          <ul className="flex flex-col divide-y rounded-lg border">
+            {recents.map((entry) => (
+              <li key={entry.path}>
+                <Link
+                  to={entry.path}
+                  onMouseEnter={() => preloadPrototype(entry.path)}
+                  className="flex flex-col gap-0.5 px-4 py-3 transition hover:bg-accent"
+                >
+                  <span className="text-sm font-medium">{entry.title}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {entry.description ?? entry.breadcrumb}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         )}
       </section>
 
