@@ -2,7 +2,7 @@ import { useMemo } from "react"
 import { Link } from "react-router"
 import surfaceConfig from "../../surface.config"
 import { preloadPrototype, prototypes } from "../lib/registry"
-import { SKILL_GROUPS } from "./requests"
+import { SHORTCUT_GROUPS, SKILL_GROUPS } from "./requests"
 
 export function Home() {
   const grouped = useMemo(() => {
@@ -23,9 +23,7 @@ export function Home() {
         </h1>
         <p className="text-sm text-muted-foreground">
           Press <kbd className="font-mono text-xs">⌘K</kbd> to find a prototype.
-          Press <kbd className="font-mono text-xs">⌘⇧K</kbd> to select a
-          variant. Press <kbd className="font-mono text-xs">⌘⇧B</kbd> to see all
-          prototypes. Right-click to open the same menu. On Windows, use Ctrl.
+          Type a skill in the chat of your AI assistant to make or change one.
         </p>
       </header>
 
@@ -61,6 +59,35 @@ export function Home() {
             </div>
           ))
         )}
+      </section>
+
+      <section className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
+          <h2 className="text-sm font-medium">Keyboard shortcuts</h2>
+          <p className="text-xs text-muted-foreground">
+            On Windows, use Ctrl as an alternative to ⌘.
+          </p>
+        </div>
+        {SHORTCUT_GROUPS.map((group) => (
+          <div key={group.label} className="flex flex-col gap-1">
+            <h3 className="text-xs text-muted-foreground">{group.label}</h3>
+            <ul className="flex flex-col divide-y rounded-lg border">
+              {group.shortcuts.map((shortcut) => (
+                <li
+                  key={shortcut.keys}
+                  className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-baseline sm:gap-4"
+                >
+                  <kbd className="shrink-0 font-mono text-sm sm:w-44">
+                    {shortcut.keys}
+                  </kbd>
+                  <span className="text-xs text-muted-foreground">
+                    {shortcut.does}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </section>
 
       <section className="flex flex-col gap-4">

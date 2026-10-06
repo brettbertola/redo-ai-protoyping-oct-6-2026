@@ -232,7 +232,7 @@ export function patienceMessage(remaining, budget) {
     return "Frustration: high. You are almost at your limit. If the next click or two do not help, you stop."
   }
   if (ratio <= 0.3) {
-    return "Frustration: moderate. This takes longer than you expected. You look for a shortcut. You think about stopping."
+    return "Frustration: moderate. This takes longer than you expected. You look for a shortcut. You are almost prepared to stop."
   }
   if (ratio <= 0.7) {
     return "You are focused. You do not explore things that are not related to your goal."
@@ -254,9 +254,9 @@ export function briefing(persona, task, device) {
   const severities = Object.entries(SEVERITIES)
     .map(([severity, meaning]) => `- ${severity}: ${meaning}`)
     .join("\n")
-  return `# You are a participant in a usability test
+  return `# Play the part of a user in a usability test
 
-You are not an AI assistant now. You are a real person who uses a product on a ${device} screen. You are not here to help. You have limited patience. If the task is too hard, you stop.
+A designer wants to find where a design is not clear. You help with a role-play: you play the part of one user who tries the design on a ${device} screen. Act as this user acts, and speak as this user speaks. This user is not here to help the designer. This user has limited patience. If the task is too hard, this user stops.
 
 ## Who you are
 
@@ -276,11 +276,11 @@ Each command starts with \`npm run surface -- test\`. Each command gives a new s
 | Command | Function | Patience |
 |---|---|---|
 | \`look\` | Gives the screenshot and the controls again | 0 |
-| \`click <ref> --why "<text>"\` | Clicks a control | 1 |
-| \`type <ref> "<text>" --why "<text>"\` | Types into a field. Add \`--submit\` to press Enter | 1 |
-| \`select <ref> "<option>" --why "<text>"\` | Selects an option in a list | 1 |
-| \`key <Enter, Escape, Tab> --why "<text>"\` | Presses one key | 1 |
-| \`back --why "<text>"\` | Goes back one page | 1 |
+| \`click <ref> --says "<comment>"\` | Clicks a control | 1 |
+| \`type <ref> "<text>" --says "<comment>"\` | Types into a field. Add \`--submit\` to press Enter | 1 |
+| \`select <ref> "<option>" --says "<comment>"\` | Selects an option in a list | 1 |
+| \`key <Enter, Escape, Tab> --says "<comment>"\` | Presses one key | 1 |
+| \`back --says "<comment>"\` | Goes back one page | 1 |
 | \`scroll down\` or \`scroll up\` | Moves the page | 0 |
 | \`hover <ref>\` | Puts the pointer on a control | 0 |
 | \`finding --type <type> --severity <severity> --description "<text>"\` | Records a usability problem | 0 |
@@ -289,13 +289,13 @@ Each command starts with \`npm run surface -- test\`. Each command gives a new s
 ## Rules
 
 1. Open the screenshot file after each command. The screenshot is what you see. Use the list of controls only to get the \`ref\` of a control that you saw in the screenshot.
-2. Before each action, write in \`--why\` what you see, what you look for and why you select this action. Use the first person. This text is the most important result of the test.
+2. With each action, put in \`--says\` the comment that this user says aloud at that moment. A real participant in a usability test speaks while they use the product. Write one or two short sentences in the words of the user: what they see, and what they expect from the action. Example: "I want to pay. The large button at the bottom says Pay, so I press it." The designer reads these comments in the report.
 3. Obey your behavior. If your reading is "glances", you do not read body text. If your persistence is "low", you stop quickly.
 4. You know only what the screen shows. Do not read the files of the project. Do not use knowledge about how web pages are made. Do not type an address.
 5. When you are confused, or a label is not clear, or an action has no result, record a finding immediately. Do not wait until the end.
 6. Each result contains \`patience\` and \`mood\`. Let the mood change how you act.
 7. If you see something that looks like a control but it is not in the list, you cannot use it. Record a finding.
-8. When you think that the task is done, or when you stop, run \`end\`. In \`--summary\`, say what you did or where you stopped, and what you expected to see.
+8. When the user believes that the task is done, or when you stop, run \`end\`. In \`--summary\`, say what you did or where you stopped, and what you expected to see.
 
 ## Types of finding
 
@@ -375,6 +375,9 @@ export function variantTree(run) {
 }
 
 /** The page that the designer reads after a run. It needs no other file. */
+// Reports of older runs have the comment of the user in `why`.
+const comment = (action) => action.says ?? action.why ?? ""
+
 export function reportHtml(run) {
   const findings = sortFindings(run.findings)
   const used = run.patienceBudget - run.patienceRemaining
@@ -467,7 +470,7 @@ ${run.actions
   .map(
     (action) => `<div class="item">
   <div><strong>${action.step}. ${escapeHtml(action.label)}</strong> <span class="soft">${escapeHtml(action.page)}${action.cost > 0 ? ` · patience ${action.patienceRemaining}` : ""}${action.changed === false ? " · the screen did not change" : ""}</span>
-  ${action.why ? `<blockquote>${escapeHtml(action.why)}</blockquote>` : ""}</div>
+  ${comment(action) ? `<blockquote>${escapeHtml(comment(action))}</blockquote>` : ""}</div>
   ${shot(action.screenshot, `Screen after step ${action.step}`)}
 </div>`
   )

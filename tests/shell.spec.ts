@@ -15,7 +15,7 @@ function frame(page: Page) {
   return page.frameLocator("[data-surface-device] iframe")
 }
 
-test("B1 B2 B9: home lists prototypes; unknown URL shows not-found", async ({
+test("B1 B2 B9 B11: home lists prototypes; unknown URL shows not-found", async ({
   page,
 }) => {
   await page.goto("/")
@@ -23,6 +23,12 @@ test("B1 B2 B9: home lists prototypes; unknown URL shows not-found", async ({
   await expect(
     page.getByRole("link", { name: /Mobile Checkout/ })
   ).toBeVisible()
+  // B11: the home page shows the skills in groups and the keyboard shortcuts.
+  await expect(page.getByText("/surface-develop")).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Keyboard shortcuts" })
+  ).toBeVisible()
+  await expect(page.getByText("In the command palette")).toBeVisible()
   await page.goto("/nope/nope")
   await expect(page.getByText("This page does not exist")).toBeVisible()
   await page.getByRole("link", { name: "Go to all prototypes" }).click()
@@ -184,7 +190,7 @@ test("G7 G8 B5: device frame has the exact viewport and follows navigation", asy
   expect(width).toBe(390)
 
   await inner.getByRole("button", { name: /Pay/ }).click()
-  await expect(inner.getByText("Order placed")).toBeVisible()
+  await expect(inner.getByText("Payment received")).toBeVisible()
   await expect(page).toHaveURL(`${CHECKOUT}/confirmation`)
 
   await openPalette(page, true)

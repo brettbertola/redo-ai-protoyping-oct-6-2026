@@ -27,6 +27,10 @@ export const SKILLS = [
     does: "Gets the latest version of Surface.",
   },
   {
+    skill: "surface-develop",
+    does: "Changes how Surface works for all prototypes.",
+  },
+  {
     skill: "prototype-new",
     does: "Makes a new prototype.",
   },
@@ -108,3 +112,30 @@ export const SKILL_GROUPS = (() => {
   }
   return groups
 })()
+
+// The home page shows these keys. The README has the same list in the section
+// "Controls in the preview". Change the two together.
+export const SHORTCUT_GROUPS = [
+  {
+    label: "In each prototype",
+    shortcuts: [
+      {
+        keys: "⌘K",
+        does: "Find a prototype. Select a chrome. Select a device size.",
+      },
+      { keys: "⌘⇧K", does: "Select a variant of the current prototype." },
+      { keys: "⌘⇧B", does: "See all prototypes in a panel." },
+      { keys: "Right-click", does: "Open the Surface menu." },
+      { keys: "⇧ Right-click", does: "Open the menu of the browser." },
+    ],
+  },
+  {
+    label: "In the command palette",
+    shortcuts: [
+      { keys: "Tab", does: "Go between the prototypes and the variants." },
+      { keys: "⌘D", does: "Save the current options as your defaults." },
+      { keys: "⌘C", does: "Copy the link to the screen that you see." },
+      { keys: "Esc", does: "Close the command palette." },
+    ],
+  },
+]

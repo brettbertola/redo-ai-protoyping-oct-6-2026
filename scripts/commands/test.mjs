@@ -350,7 +350,9 @@ function runs() {
 
 export async function run(args) {
   const action = args._[0]
-  const why = typeof args.why === "string" ? args.why : undefined
+  // `--why` is the old name of `--says`.
+  const spoken = args.says ?? args.why
+  const says = typeof spoken === "string" ? spoken : undefined
   switch (action) {
     case "persona":
       return persona(args)
@@ -384,24 +386,24 @@ export async function run(args) {
       return send("look")
     case "click":
     case "hover":
-      return send(action, { ref: args._[1], why })
+      return send(action, { ref: args._[1], says })
     case "type":
       return send("type", {
         ref: args._[1],
         text: args._.slice(2).join(" "),
         submit: Boolean(args.submit),
-        why,
+        says,
       })
     case "select":
       return send("select", {
         ref: args._[1],
         option: args._.slice(2).join(" "),
-        why,
+        says,
       })
     case "key":
-      return send("key", { key: args._[1], why })
+      return send("key", { key: args._[1], says })
     case "back":
-      return send("back", { why })
+      return send("back", { says })
     case "scroll":
       return send("scroll", { direction: args._[1] })
     case "finding":

@@ -269,19 +269,23 @@ async function describe(locator) {
   })
 }
 
-function needWhy(request) {
-  const why = String(request.why ?? "").trim()
-  if (why.length < 12) {
+// What the simulated user says aloud with an action, as in a real usability
+// test. It is a line of the persona. Do not name it "reasoning" or "thinking":
+// an assistant can refuse a request to write its own reasoning.
+function needComment(request) {
+  const says = String(request.says ?? "").trim()
+  if (says.length < 12) {
     throw new Refusal(
-      'Add --why "<what you see, what you look for, and why you select this action>".'
+      'Add --says "<what this user says aloud: what they see and what they expect>".'
     )
   }
-  return why
+  return says
 }
 
 /** One step of the user. `act` does it in the browser and gives the label. */
 async function step(request, cost, act) {
-  const why = cost > 0 ? needWhy(request) : String(request.why ?? "").trim()
+  const says =
+    cost > 0 ? needComment(request) : String(request.says ?? "").trim()
   if (cost > 0 && run.patienceRemaining <= 0) {
     throw new Refusal(patienceMessage(0, run.patienceBudget))
   }
@@ -302,7 +306,7 @@ async function step(request, cost, act) {
     at: new Date().toISOString(),
     kind: request.action,
     label,
-    why,
+    says,
     cost,
     patienceRemaining: run.patienceRemaining,
     page: seen.page,
@@ -588,7 +592,7 @@ async function main() {
     at: new Date().toISOString(),
     kind: "open",
     label: "Opened the prototype",
-    why: "",
+    says: "",
     cost: 0,
     patienceRemaining: run.patienceRemaining,
     page: first.page,

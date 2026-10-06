@@ -188,8 +188,9 @@ export async function run_(args) {
       needs: "cloudflare-connect",
       cloudflare: {
         project: repo?.nameWithOwner?.split("/")[1] ?? null,
+        // The defaults of "Compute > Workers & Pages > Create application".
         buildCommand: "npm run build",
-        outputDirectory: "dist",
+        deployCommand: "npx wrangler deploy",
         afterwards:
           "npm run surface -- ship set-url <the link Cloudflare shows>",
       },
