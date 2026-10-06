@@ -22,6 +22,10 @@ Write all text for the designer, and all documents in this project, in Simplifie
 | preview | The web page that shows the prototypes on this computer |
 | theme | The colors, fonts and component style of the designer |
 | publish | Put the prototypes on the web so that other persons can see them |
+| user test | One run where a simulated user tries a task in a prototype |
+| persona | A simulated user: a backstory, traits and a quantity of patience |
+| task | The goal that a simulated user tries to complete in one prototype |
+| finding | One usability problem that a simulated user recorded |
 
 Do not use these words with the designer: branch, commit, push, pull request, build, dependency, server, port. Say "preview", not "server".
 
@@ -59,6 +63,8 @@ npm run surface -- lint [files]                runs the design rules
 npm run surface -- check [--no-build]          run this after each change
 npm run surface -- ship | github login|status  publishes the prototypes
 npm run surface -- train list|add|replace|remove   controls the direction for this project
+npm run surface -- test persona|task list|show|new|delete
+npm run surface -- test start|status|stop|runs    controls a user test
 npm run surface -- update [--dry-run]
 ```
 
@@ -72,6 +78,8 @@ Use these scripts to make, rename and delete items. Do not do these tasks manual
 | `chromes/<name>/chrome.tsx` | One chrome | Yes |
 | `src/components/` | Shared components of the designer | Yes |
 | `surface.config.ts` | Project name, default chrome, default device | Yes |
+| `user-tests/personas/`, `user-tests/tasks/` | Personas and tasks for user tests | Only with `test persona` and `test task` |
+| `user-tests/runs/` | Reports and screenshots of user tests | **No.** A user test writes them |
 | `src/components/ui/` | shadcn components | **No.** A theme change replaces them |
 | `src/theme.css` | Colors, fonts, radius | Only with `theme apply` |
 | `surface/`, `scripts/`, `.agents/`, `.claude/`, `.cursor/`, `.codex/` | Surface | **No.** An update replaces them |
@@ -136,6 +144,31 @@ export default defineChrome({
 ```
 
 In a prototype, `useChrome()` reads and sets the toggles. `useChromeSlot("assistant", <Panel />)` fills a slot. See `chromes/example-app/chrome.tsx`.
+
+## A user test
+
+In a user test, an AI assistant is a participant. It gets a persona and a task. Then it operates one prototype in a real browser as that user.
+
+- `test start --persona <name> --task <name>` opens the prototype in a browser that Surface controls. It gives a `briefing` for the participant.
+- The participant uses `test look`, `click`, `type`, `select`, `key`, `back`, `scroll` and `hover`. Each result has a screenshot and the controls on the screen.
+- The script counts the patience of the persona. A click or a text entry costs 1. At 0, the participant must stop.
+- The participant records each problem with `test finding`. It ends the test with `test end`.
+- `test end` writes `user-tests/runs/<run>/report.html` and gives the success conditions of the task.
+- The participant must not see the files of the prototype or the success conditions. Use a subagent as the participant if you can.
+- A user test needs the preview. There is only one user test at a time.
+
+The skills are `test-new`, `test-persona-new` and `test-task-new`.
+
+## Animation
+
+A prototype can have product animations. Example: in an ice cream order screen, a scoop falls onto the cone.
+
+- Three tools are installed: the CSS classes of `tw-animate-css`, Motion (`motion/react`) and GSAP (`gsap`, `@gsap/react`).
+- Motion is the default. Use GSAP only for a long timeline or a scroll story. Do not add a different animation library.
+- Each animation must have a purpose, and it must have an alternative for reduced motion.
+- Before you write an animation, read `.agents/skills/prototype-animate/animation-guide.md`.
+
+The skills are `prototype-animate` and `variant-animate`.
 
 ## Design rules
 

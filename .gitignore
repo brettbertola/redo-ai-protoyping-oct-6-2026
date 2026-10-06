@@ -26,6 +26,9 @@ dist-ssr
 # Surface
 .surface
 
+# Screenshots and reports of the user tests
+user-tests/runs
+
 # Worktrees that an assistant makes inside the project
 .claude/worktrees/
 test-results

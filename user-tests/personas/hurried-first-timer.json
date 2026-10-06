@@ -1,0 +1,14 @@
+{
+  "name": "hurried-first-timer",
+  "backstory": "I have a small online shop and I do each task myself. I have no time to learn software. If a screen is not clear in a few clicks, I stop and ask a person for help.",
+  "traits": {
+    "search": "browse-first",
+    "reading": "glances",
+    "exploration": "depth-first",
+    "scent": "high",
+    "effort": "low",
+    "recovery": "abandons",
+    "persistence": "low"
+  },
+  "patience": 12
+}

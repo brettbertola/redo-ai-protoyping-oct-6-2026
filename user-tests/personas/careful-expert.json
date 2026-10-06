@@ -1,0 +1,14 @@
+{
+  "name": "careful-expert",
+  "backstory": "I am an operations manager and I use business software all day. I read each screen before I act, because a mistake costs me time later. I continue until I understand why something does not work.",
+  "traits": {
+    "search": "mixed",
+    "reading": "reads",
+    "exploration": "breadth-first",
+    "scent": "low",
+    "effort": "high",
+    "recovery": "backtracks",
+    "persistence": "high"
+  },
+  "patience": 35
+}

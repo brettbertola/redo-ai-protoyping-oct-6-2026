@@ -7,6 +7,10 @@ export const SKILLS = [
     does: "Installs the necessary items and applies your theme.",
   },
   {
+    skill: "surface-doctor",
+    does: "Finds and repairs problems with your setup.",
+  },
+  {
     skill: "surface-start",
     does: "Starts the preview and opens it in your browser.",
   },
@@ -31,6 +35,10 @@ export const SKILLS = [
     does: "Changes a prototype.",
   },
   {
+    skill: "prototype-animate",
+    does: "Adds animation to a prototype.",
+  },
+  {
     skill: "prototype-delete",
     does: "Deletes a prototype and its variants.",
   },
@@ -41,6 +49,10 @@ export const SKILLS = [
   {
     skill: "variant-update",
     does: "Changes a variant, its name or its default.",
+  },
+  {
+    skill: "variant-animate",
+    does: "Makes animations that you can compare.",
   },
   {
     skill: "variant-delete",
@@ -58,6 +70,18 @@ export const SKILLS = [
     skill: "chrome-delete",
     does: "Deletes a chrome.",
   },
+  {
+    skill: "test-new",
+    does: "Does a user test of a prototype with a simulated user.",
+  },
+  {
+    skill: "test-persona-new",
+    does: "Makes a simulated user for your user tests.",
+  },
+  {
+    skill: "test-task-new",
+    does: "Makes a goal that a simulated user tries to complete.",
+  },
 ]
 
 // The home page puts the skills in groups by the first word of the name.
@@ -66,6 +90,7 @@ const GROUP_LABELS: Record<string, string> = {
   prototype: "Prototypes",
   variant: "Variants",
   chrome: "Chromes",
+  test: "User tests",
 }
 
 type Skill = (typeof SKILLS)[number]

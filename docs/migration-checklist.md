@@ -137,7 +137,7 @@ Note: the tables below are short technical records for contributors. They are no
 
 | ID | Pass condition | Status |
 |---|---|---|
-| I1 | Each of the 14 skills triggers from a plain-language request and from its slash name | 🟡 Claude Code discovers the 13 from the first build; `surface-train` is new; triggering from plain requests not yet tried, Cursor and Codex untested |
+| I1 | Each of the 18 skills triggers from a plain-language request and from its slash name | 🟡 Claude Code discovers the 13 from the first build; `surface-train` is new; triggering from plain requests not yet tried, Cursor and Codex untested |
 | I2 | Skills contain no Claude-only tool names or variables; `.agents/skills` and `.claude/skills` are byte-identical (**auto**) | ✅ |
 | I3 | `surface-setup` from a fresh unzip with nothing installed reaches a running preview using only the chat | ⬜ |
 | I4 | Full loop: prototype new → update → variant new (each kind) → variant update → variant delete → prototype delete | ⬜ |
@@ -191,3 +191,16 @@ Note: the tables below are short technical records for contributors. They are no
 | M3 **auto** | `train add` gives a warning when a group has more than 10 directives or a directive has more than 40 words | ✅ |
 | M4 **auto** | An update of Surface keeps the directives, and a change to the directives is not reported as an edited Surface file | ✅ |
 | M5 | An assistant that uses the skill turns specific feedback into a principle, or sends it to the prototype, the theme or a chrome | ⬜ Not yet tried with an assistant |
+
+### N. User tests (`test-new`, `test-persona-new`, `test-task-new`)
+
+| ID | Pass condition | Status |
+|---|---|---|
+| N1 **auto** | `test persona new` names each missing or incorrect trait, refuses a duplicate without `--replace`, and `delete` needs `--yes` | ✅ |
+| N2 **auto** | `test task new` needs a prototype that exists, a page that exists and variants that exist | ✅ |
+| N3 **auto** | `test start` needs the preview, opens the prototype without the Surface controls at the size of its device, and gives a briefing that has no success conditions. There is only one user test at a time | ✅ |
+| N4 **auto** | Each action gives a screenshot and the controls on the screen. A click, a text entry, a key and "back" cost 1 patience and need `--why`. At 0, the script refuses an action | ✅ |
+| N5 **auto** | `test finding` refuses an unknown type and a duplicate. `test end` writes the report, gives the success conditions and stops the browser | ✅ |
+| N6 | With no browser for Playwright, `test start` gives the command that installs one. A browser of the computer (Chrome, Edge) is used if it exists | ⬜ |
+| N7 | In Claude Code, Cursor and Codex, the `test-new` skill completes a test. The participant is a subagent where that is possible | ⬜ Not yet tried with a subagent |
+| N8 | A prototype in a chrome and on a desktop device: the controls in the chrome and in a dialog are in the list | 🟡 The controls in the chrome verified manually for the dashboard example. A dialog not yet |

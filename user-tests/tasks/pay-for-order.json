@@ -1,0 +1,17 @@
+{
+  "name": "pay-for-order",
+  "goal": "You have two items in your cart. Pay for the order.",
+  "prototype": "examples/mobile-checkout",
+  "startPage": null,
+  "variants": null,
+  "success": {
+    "endPage": "confirmation",
+    "interactions": [
+      "Email field",
+      "Card number field",
+      "Pay button"
+    ],
+    "signal": "The screen says that the order is placed."
+  },
+  "difficulty": "easy"
+}

@@ -653,6 +653,216 @@ test("M1 M2 M3: train changes only the direction section and refuses specific ru
   )
 })
 
+test("N1 N2: personas and tasks are validated before they are saved", () => {
+  const incomplete = surface("test", "persona", "new", "night-nurse")
+  assert.equal(incomplete.ok, false)
+  assert.equal(incomplete.missing.length, 9, "N1: each missing flag is named")
+  assert.ok(!exists("user-tests/personas/night-nurse.json"))
+
+  const flags = [
+    ["backstory", "I work at night and I use my phone between two tasks."],
+    ["search", "browse-first"],
+    ["reading", "scans"],
+    ["exploration", "linear"],
+    ["scent", "high"],
+    ["effort", "low"],
+    ["recovery", "backtracks"],
+    ["persistence", "medium"],
+    ["patience", "4"],
+  ].flatMap(([flag, value]) => [`--${flag}`, value])
+  assert.equal(
+    surface("test", "persona", "new", "night-nurse", ...flags).ok,
+    true
+  )
+  assert.equal(
+    surface("test", "persona", "new", "night-nurse", ...flags).ok,
+    false,
+    "N1: a duplicate needs --replace"
+  )
+  assert.ok(
+    surface("test", "persona", "list").personas.some(
+      (persona) => persona.name === "night-nurse" && persona.patience === 4
+    )
+  )
+
+  const task = (...args) =>
+    surface("test", "task", "new", "place-order", "--goal", "Pay.", ...args)
+  assert.equal(task("--signal", "Done.").ok, false, "N2: needs a prototype")
+  assert.equal(
+    task("--prototype", "examples/nope", "--signal", "Done.").ok,
+    false
+  )
+  const wrongPage = task(
+    "--prototype",
+    "mobile-checkout",
+    "--signal",
+    "Done.",
+    "--end-page",
+    "nope"
+  )
+  assert.match(wrongPage.missing.join(" "), /confirmation/)
+  assert.equal(
+    task(
+      "--prototype",
+      "mobile-checkout",
+      "--signal",
+      "Done.",
+      "--variants",
+      "nope=1"
+    ).ok,
+    false,
+    "N2: a variant must exist"
+  )
+  const made = task(
+    "--prototype",
+    "mobile-checkout",
+    "--signal",
+    "The screen says that the order is placed.",
+    "--end-page",
+    "confirmation",
+    "--interactions",
+    "Email field; Pay button"
+  )
+  assert.equal(made.task.prototype, "examples/mobile-checkout")
+  assert.deepEqual(made.task.success.interactions, [
+    "Email field",
+    "Pay button",
+  ])
+
+  const ask = surface("test", "task", "delete", "place-order")
+  assert.equal(ask.confirm, true)
+  assert.ok(
+    exists("user-tests/tasks/place-order.json"),
+    "N2: no delete without --yes"
+  )
+})
+
+test("N3 N4 N5: a user test runs in a browser, counts patience and writes a report", async (t) => {
+  assert.equal(
+    surface(
+      "test",
+      "start",
+      "--persona",
+      "night-nurse",
+      "--task",
+      "place-order"
+    ).ok,
+    false,
+    "N3: a user test needs the preview"
+  )
+  const preview = spawn(
+    process.execPath,
+    [join(dir, "scripts", "surface.mjs"), "dev", "start", "--no-open"],
+    { cwd: dir, stdio: "ignore" }
+  )
+  try {
+    assert.equal(surface("dev", "status", "--wait").running, true)
+    const started = surface(
+      "test",
+      "start",
+      "--persona",
+      "night-nurse",
+      "--task",
+      "place-order",
+      "--variants",
+      "button=inline"
+    )
+    if (!started.ok && started.fix) {
+      t.skip("no browser is installed for Playwright")
+      return
+    }
+    assert.equal(started.device, "phone", "N3: the device of the prototype")
+    assert.match(started.briefing, /I work at night/)
+    assert.ok(
+      !/confirmation|order is placed/.test(started.briefing),
+      "N3: the briefing has no success conditions"
+    )
+    assert.ok(exists(started.screenshot))
+    const pay = started.controls.find((control) => /^Pay/.test(control.name))
+    const email = started.controls.find((control) => control.name === "Email")
+    assert.ok(pay && email, "N3: the result lists the controls on the screen")
+    assert.equal(
+      surface(
+        "test",
+        "start",
+        "--persona",
+        "night-nurse",
+        "--task",
+        "place-order"
+      ).ok,
+      false,
+      "N3: there is only one user test at a time"
+    )
+
+    const why = "I see this control and I think it is the next step to pay."
+    assert.equal(surface("test", "click", pay.ref).ok, false, "N4: needs --why")
+    assert.equal(surface("test", "click", "e99", "--why", why).ok, false)
+    assert.equal(surface("test", "scroll", "down").patience.remaining, 4)
+    const typed = surface(
+      "test",
+      "type",
+      email.ref,
+      "a@example.com",
+      "--why",
+      why
+    )
+    assert.equal(typed.patience.remaining, 3, "N4: a text entry costs 1")
+    assert.equal(
+      typed.controls.find((control) => control.name === "Email").value,
+      "a@example.com"
+    )
+    const paid = surface("test", "click", pay.ref, "--why", why)
+    assert.equal(
+      paid.page,
+      "/examples/mobile-checkout/confirmation?button=inline"
+    )
+    assert.match(paid.text, /Order placed/)
+    surface("test", "back", "--why", why)
+    const last = surface("test", "key", "Tab", "--why", why)
+    assert.equal(last.patience.remaining, 0)
+    const refused = surface("test", "key", "Tab", "--why", why)
+    assert.equal(refused.ok, false, "N4: no action when the patience is 0")
+    assert.match(refused.summary, /patience is 0/)
+
+    assert.equal(surface("test", "finding", "--type", "nope").ok, false)
+    const finding = [
+      "test",
+      "finding",
+      "--type",
+      "dead-end",
+      "--severity",
+      "warning",
+      "--description",
+      "The Tab key did not move me to a control that I could see.",
+    ]
+    assert.equal(surface(...finding).findings, 1)
+    assert.equal(surface(...finding).findings, 1, "N5: no duplicate finding")
+
+    const ended = surface(
+      "test",
+      "end",
+      "--outcome",
+      "abandoned",
+      "--summary",
+      "I paid, then I lost my place.",
+      "--no-open"
+    )
+    assert.equal(ended.reachedEndPage, true)
+    assert.equal(ended.success.endPage, "confirmation")
+    assert.equal(ended.findings.length, 1)
+    assert.match(read(ended.report), /The Tab key did not move me/)
+    assert.match(read(ended.report), /└ 1\. button/)
+    assert.match(read(ended.report), /├ a\. sticky \(default\)</)
+    assert.match(read(ended.report), /└ b\. inline ✓/)
+    assert.equal(surface("test", "status").running, false)
+    assert.equal(surface("test", "runs").runs[0].outcome, "abandoned")
+    assert.equal(surface("test", "look").ok, false, "N5: the browser is off")
+  } finally {
+    surface("test", "stop")
+    preview.kill()
+  }
+})
+
 test("I2: skill copies match the originals", () => {
   assert.equal(surface("skills", "check").ok, true)
 })

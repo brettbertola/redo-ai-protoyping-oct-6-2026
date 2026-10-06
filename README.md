@@ -56,12 +56,18 @@ Type a slash command. Then write what you want in your own words. These are exam
 | `/variant-new` a header with a search bar | You get an alternative that you can select |
 | `/variant-update` make the compact layout the default | A different option shows first |
 | `/variant-delete` the old header option | The assistant deletes the variant |
+| `/prototype-animate` order: make the scoop fall onto the cone | The prototype gets an animation |
+| `/variant-animate` order: compare a drop and a bounce for the scoop | You get animations that you can select and compare |
 | `/chrome-new` that looks like our app (add a screenshot) | The navigation of your product shows around your prototypes |
 | `/prototype-update` show the checkout prototype on a phone | The prototype shows in a phone frame |
+| `/test-new` the checkout prototype as a shop owner with no time | A simulated user tries the prototype. You get a report with the problems |
+| `/test-persona-new` a careful accountant who reads each label | You get a simulated user for your user tests |
+| `/test-task-new` checkout: pay for the order | You get a goal that a simulated user tries to complete |
 | `/surface-train` always show an empty state for a list | The assistant obeys this rule in all future prototypes |
 | `/prototype-delete` the test prototype | The assistant asks for approval, then deletes it |
 | `/surface-ship` | The assistant publishes your prototypes to a link |
 | `/surface-update` | You get the latest version of Surface |
+| `/surface-doctor` | The assistant finds and repairs problems with your setup |
 
 ## Controls in the preview
 
@@ -73,6 +79,19 @@ Type a slash command. Then write what you want in your own words. These are exam
 | Right-click | Open the same menu. |
 
 On Windows, use Ctrl as an alternative to ⌘. The address bar always contains a link to the screen that you see.
+
+## Test a prototype with a simulated user
+
+Type `/test-new` and say which prototype to test. Example:
+
+> /test-new the checkout prototype as a shop owner with no time
+
+- The assistant operates the prototype as that user. It clicks, types and reads as the persona does.
+- The user has limited patience. If the design is not clear, the user stops.
+- At the end, a report opens in your browser. It shows each step, each screenshot and each problem that the user found.
+- A simulated user is not a real user. Use the report to find clear problems early. Then do tests with real persons.
+
+The first user test can download a browser. This takes one or two minutes.
 
 ## Share your prototypes
 
@@ -86,7 +105,11 @@ Type `/surface-ship`.
 
 If the preview does not load, type `/surface-start`.
 
-For other problems, tell the assistant what you see. Ask it to run the Surface doctor. The assistant examines your setup and repairs it.
+For other problems, type this command in the chat:
+
+> /surface-doctor
+
+The assistant examines your setup and repairs it. You can also tell the assistant what you see.
 
 ---
 

@@ -1,0 +1,14 @@
+{
+  "name": "low-vision-senior",
+  "backstory": "I am 78 years old and my eyes are weak. I use my phone for calls and messages, and my family helps me with other apps. I can read only large text with clear contrast, and I am afraid that a wrong tap will cost me money.",
+  "traits": {
+    "search": "browse-first",
+    "reading": "glances",
+    "exploration": "linear",
+    "scent": "high",
+    "effort": "low",
+    "recovery": "retries",
+    "persistence": "medium"
+  },
+  "patience": 12
+}

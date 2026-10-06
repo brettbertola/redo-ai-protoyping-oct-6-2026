@@ -31,6 +31,6 @@ Run `npm run surface -- dev stop`. Tell the designer that the preview is off.
 
 1. Run `npm run surface -- dev status`.
 2. If `running` is `false`, do the Start procedure again.
-3. If the Start procedure fails, read the text in the terminal. Then run `npm run surface -- doctor`.
+3. If the Start procedure fails, read the text in the terminal. Then obey the `surface-doctor` skill.
 4. If `dependencies` is missing, run `npm install`. Then do the Start procedure again.
 5. Tell the designer the cause in one sentence. Do not show them the error text.

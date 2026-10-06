@@ -14,6 +14,7 @@ const COMMANDS = {
   check: () => import("./commands/check.mjs"),
   lint: () => import("./commands/lint.mjs"),
   train: () => import("./commands/train.mjs"),
+  test: () => import("./commands/test.mjs"),
   github: () => import("./commands/github.mjs"),
   ship: () => import("./commands/ship.mjs"),
   update: () => import("./commands/update.mjs"),

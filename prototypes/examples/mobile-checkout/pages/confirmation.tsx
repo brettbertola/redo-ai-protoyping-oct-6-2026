@@ -9,12 +9,13 @@ export default function Confirmation() {
       <span className="flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground">
         <Check className="size-6" />
       </span>
-      <h1 className="font-heading text-xl font-semibold">Order placed</h1>
-      <p className="text-sm text-muted-foreground">
-        A receipt is on its way to your inbox.
+      <h1 className="font-heading text-xl font-semibold">Payment received</h1>
+      <p className="font-heading text-3xl font-semibold">$54.00</p>
+      <p className="text-base">
+        Your order is placed. A receipt is on its way to your inbox.
       </p>
       <Link to={`/examples/mobile-checkout${search}`}>
-        <Button variant="outline">Back to checkout</Button>
+        <Button variant="outline">Done</Button>
       </Link>
     </main>
   )

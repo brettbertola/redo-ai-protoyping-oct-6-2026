@@ -28,9 +28,9 @@ export default function Checkout() {
         <h1 className="font-heading text-xl font-semibold">Checkout</h1>
         <ul className="flex flex-col divide-y rounded-lg border">
           {ITEMS.map((item) => (
-            <li key={item.name} className="flex justify-between p-3 text-sm">
+            <li key={item.name} className="flex justify-between p-3 text-base">
               <span>{item.name}</span>
-              <span className="text-muted-foreground">{item.price}</span>
+              <span className="font-medium">{item.price}</span>
             </li>
           ))}
         </ul>
@@ -40,11 +40,7 @@ export default function Checkout() {
         </div>
         <div className="flex flex-col gap-2">
           <Label htmlFor="card">Card number</Label>
-          <Input
-            id="card"
-            inputMode="numeric"
-            placeholder="4242 4242 4242 4242"
-          />
+          <Input id="card" inputMode="numeric" />
         </div>
         {button === "inline" ? pay : null}
       </div>
