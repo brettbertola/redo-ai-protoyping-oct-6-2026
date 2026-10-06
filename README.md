@@ -102,7 +102,7 @@ These keys work in each prototype:
 
 | Keys | Function |
 |---|---|
-| ⌘K | Find a prototype. Select a chrome. Select a device size. |
+| ⌘K | Find a prototype. Select a chrome. Select a device size. Select light, dark or system mode. |
 | ⌘⇧K | Select a variant of the current prototype. |
 | ⌘⇧B | See all prototypes in a panel. |
 | Right-click | Open the Surface menu. |

@@ -121,7 +121,7 @@ export const SHORTCUT_GROUPS = [
     shortcuts: [
       {
         keys: "⌘K",
-        does: "Find a prototype. Select a chrome. Select a device size.",
+        does: "Find a prototype. Select a chrome. Select a device size. Select light, dark or system mode.",
       },
       { keys: "⌘⇧K", does: "Select a variant of the current prototype." },
       { keys: "⌘⇧B", does: "See all prototypes in a panel." },
