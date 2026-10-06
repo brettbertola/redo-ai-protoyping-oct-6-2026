@@ -25,6 +25,7 @@ export const OWNED = [
   "README.md",
   "LICENSE",
   "index.html",
+  "public/favicon.svg",
   "vite.config.ts",
   "playwright.config.ts",
   "eslint.config.js",

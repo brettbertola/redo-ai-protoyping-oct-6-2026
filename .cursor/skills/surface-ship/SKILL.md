@@ -22,7 +22,7 @@ Read `needs` in the result. Do the related procedure below. Then run the command
 2. For each missing item, give the designer the installer from `fix`. Do one item at a time.
 3. On a Mac, install Git as follows: run `xcode-select --install`. An Apple window opens. Tell the designer to click Install. This can take some minutes.
 4. Tell the designer to close this app fully and open it again.
-5. Tell the designer to type "Ship it" again.
+5. Tell the designer to type `/surface-ship` again.
 
 ## `needs: "github-login"`
 

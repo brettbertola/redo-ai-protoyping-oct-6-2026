@@ -12,7 +12,7 @@ Read `AGENTS.md` first. You run each command. The designer does not use a termin
      1. Download the "LTS" installer from https://nodejs.org/en/download
      2. Open the installer and click Continue until it completes.
      3. Close this app fully and open it again.
-     4. Type "Set up Surface" again.
+     4. Type `/surface-setup` again.
    - If `dependencies` is missing, run `npm install`. This can take two minutes. Then run `doctor` again.
    - Git, the GitHub CLI and the GitHub sign-in are necessary only to publish. Do not install them now.
 2. **Ask for the theme.** Tell the designer:
@@ -23,6 +23,6 @@ Read `AGENTS.md` first. You run each command. The designer does not use a termin
    - If the designer typed skip, do not do this step.
 4. **Do a check.** Run `npm run surface -- check --no-build`. Repair each problem that it reports.
 5. **Start the preview.** Obey the `surface-start` skill.
-6. **Tell the designer what they can do.** Give three examples: make a prototype, add a variant, publish. Tell them that the home page of the preview shows the full list.
+6. **Tell the designer what they can do.** Give three commands: `/prototype-new` to make a prototype, `/variant-new` to add a variant, `/surface-ship` to publish. Tell them that the home page of the preview shows all commands.
 
 To change the theme at a later time, do steps 2 thru 5 again.

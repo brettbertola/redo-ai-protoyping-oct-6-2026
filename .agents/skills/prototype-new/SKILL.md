@@ -17,6 +17,6 @@ Read `AGENTS.md` first.
 3. **Make the design** in `prototypes/<category/name>/prototype.tsx`. Obey the design rules in `AGENTS.md`.
    - Put parts and sample data in files adjacent to that file.
    - For a flow with more than one screen, add each screen as `pages/<page-name>.tsx`. Its address is `/<category>/<name>/<page-name>`.
-4. **Prepare for variants.** If the designer gave alternatives, make that section a component. Then offer to add a variant.
+4. **Prepare for variants.** If the designer gave alternatives, make that section a component. Then tell the designer that `/variant-new` adds a variant.
 5. **Do a check.** Run `npm run surface -- check --no-build`. Repair each problem.
 6. **Show the result.** Make sure that the preview is on (`surface-start` skill). Give the designer the full address of the new prototype.

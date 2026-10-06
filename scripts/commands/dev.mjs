@@ -220,7 +220,7 @@ async function start(args) {
 
   say(`The preview is on. Address: ${url}`)
   say("Keep this terminal open. The preview stops when this terminal closes.")
-  say("To stop the preview, tell your assistant: Stop Surface.")
+  say("To stop the preview, type /surface-start stop in the chat of your assistant.")
   if (!args["no-open"]) openBrowser(url)
 
   // Stay on until something stops this process.

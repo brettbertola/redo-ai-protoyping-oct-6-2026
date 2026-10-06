@@ -33,6 +33,7 @@ Do not use these words with the designer: branch, commit, push, pull request, bu
 4. Before you delete something, tell the designer what you will delete. Wait for a clear "yes".
 5. When a request agrees with a skill in `.agents/skills/`, obey that skill.
 6. When a command fails, tell the designer the cause in one sentence. Do not show the error text.
+7. When you tell the designer what to type, give the slash command of the skill. Example: `/variant-new`. Do not give a phrase such as "Add a variant".
 
 ## The preview
 

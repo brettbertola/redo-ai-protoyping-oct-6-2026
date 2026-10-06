@@ -33,8 +33,8 @@ export function Home() {
         <h2 className="text-sm font-medium">Prototypes</h2>
         {grouped.length === 0 ? (
           <p className="rounded-lg border border-dashed p-6 text-sm text-muted-foreground">
-            There are no prototypes. Tell your AI assistant: “Make a new
-            prototype for…”
+            There are no prototypes. Type /prototype-new in the chat of your AI
+            assistant.
           </p>
         ) : (
           grouped.map(([category, entries]) => (
