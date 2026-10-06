@@ -27,7 +27,7 @@ const INGREDIENTS = [
 const STARTING_ITEMS = ["brie", "salami", "figs"]
 
 export default function BoardBuilder() {
-  usePrototypeProps(config)
+  const { experience: Experience } = usePrototypeProps(config)
   const [selected, setSelected] = useState<string[]>(STARTING_ITEMS)
 
   const total = 48 + INGREDIENTS.reduce(
@@ -43,7 +43,7 @@ export default function BoardBuilder() {
     )
   }
 
-  return (
+  const guided = (
     <MotionConfig reducedMotion="user">
       <main className="min-h-dvh bg-background">
         <header className="border-b bg-background">
@@ -187,4 +187,6 @@ export default function BoardBuilder() {
       </main>
     </MotionConfig>
   )
+
+  return <Experience guided={guided} />
 }
